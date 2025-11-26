@@ -1,19 +1,19 @@
 export default function sitemap() {
   return [
     {
-      url: "https://ebsoftwaregroup.netlify.app",
+      url: "https://ebsoftwaregroup.com",
       lastModified: new Date(),
     },
     {
-      url: "https://ebsoftwaregroup.netlify.app/#hizmetler",
+      url: "https://ebsoftwaregroup.com/#hizmetler",
       lastModified: new Date(),
     },
     {
-      url: "https://ebsoftwaregroup.netlify.app/#projeler",
+      url: "https://ebsoftwaregroup.com/#projeler",
       lastModified: new Date(),
     },
     {
-      url: "https://ebsoftwaregroup.netlify.app/#iletisim",
+      url: "https://ebsoftwaregroup.com/#iletisim",
       lastModified: new Date(),
     }
   ];
