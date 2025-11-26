@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://seninsiteadresi.netlify.app/sitemap.xml
