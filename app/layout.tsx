@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     title: "E&B Software Group",
     description:
       "Modern web, mobil ve kurumsal yazılım çözümleri. Digital transformation for your business.",
-    url: "https://ebsoftwaregroup.netlify.app",
+    url: "https://ebsoftwaregroup.com",
     siteName: "E&B Software Group",
     type: "website",
     locale: "tr_TR"
