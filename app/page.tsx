@@ -21,14 +21,33 @@ interface Project {
 }
 
 export default function HomePage() {
-  const [darkMode, setDarkMode] = useState(true);
+  // null = henüz tema belli değil (ilk yükleme)
+  const [darkMode, setDarkMode] = useState<boolean | null>(null);
   const [lang, setLang] = useState<"tr" | "en">("tr");
   const [projects, setProjects] = useState<Project[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 💡 Tema toggle → <html> üzerine dark class ekle / kaldır
-   // 💡 Tema toggle → <html> üzerine dark class ekle / kaldır
+  // İlk açılışta localStorage + prefers-color-scheme'e göre tema seç
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+      setDarkMode(false);
+    } else if (savedTheme === "dark") {
+      setDarkMode(true);
+    } else {
+      // Eğer kayıt yoksa sistem temasını baz al
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+      setDarkMode(prefersDark);
+    }
+  }, []);
+
+  // Tema state'i belli olduğunda <html> üzerine dark class ekle/kaldır
+  useEffect(() => {
+    if (darkMode === null) return; // Daha hazır değil
+
     const root = document.documentElement; // <html>
 
     if (darkMode) {
@@ -40,18 +59,7 @@ export default function HomePage() {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
-  // 💡 Sayfa açıldığında önceki tema durumunu hatırla
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      setDarkMode(false);
-    } else {
-      setDarkMode(true);
-    }
-  }, []);
-
-
-  // (Opsiyonel) Menü açıksa body scroll kilit
+  // Menü açıksa body scroll kilit
   useEffect(() => {
     if (menuOpen) {
       document.body.classList.add("menu-open");
@@ -60,7 +68,7 @@ export default function HomePage() {
     }
   }, [menuOpen]);
 
-  // 🔹 Projeleri getir
+  // Projeleri getir
   useEffect(() => {
     async function fetchProjects() {
       try {
@@ -75,7 +83,7 @@ export default function HomePage() {
     fetchProjects();
   }, []);
 
-  // 🔤 Metin çeviri objesi
+  // Metin çeviri objesi
   const t = {
     tr: {
       slogan: "YAZILIM · DANIŞMANLIK · AR-GE",
@@ -126,6 +134,13 @@ export default function HomePage() {
         "AI-driven automation systems reduce workload and make data-driven decision-making easier for your business.",
     },
   }[lang];
+
+  // darkMode daha hesaplanmadıysa kısa süre boş dön (flash engelleme)
+  if (darkMode === null) {
+    return (
+      <main className="min-h-screen bg-slate-50 dark:bg-dark transition-colors" />
+    );
+  }
 
   return (
     <main
