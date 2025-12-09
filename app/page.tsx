@@ -27,6 +27,7 @@ export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // 💡 Tema toggle → <html> üzerine dark class ekle / kaldır
+   // 💡 Tema toggle → <html> üzerine dark class ekle / kaldır
   useEffect(() => {
     const root = document.documentElement; // <html>
 
@@ -41,13 +42,14 @@ export default function HomePage() {
 
   // 💡 Sayfa açıldığında önceki tema durumunu hatırla
   useEffect(() => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "light") {
       setDarkMode(false);
     } else {
       setDarkMode(true);
     }
   }, []);
+
 
   // (Opsiyonel) Menü açıksa body scroll kilit
   useEffect(() => {
