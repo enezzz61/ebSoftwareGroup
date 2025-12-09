@@ -7,7 +7,7 @@
 ================================ */
 html,
 body {
-  /* Artık her zaman dark değil, sadece font + smooth */
+  /* BURADA ARTIK bg-dark YOK */
   @apply font-sans scroll-smooth antialiased;
 }
 
@@ -34,15 +34,14 @@ body {
    REUSABLE UI COMPONENTS
 ================================ */
 
-/* Kart tasarımı */
-/* LIGHT MODE DEFAULT */
+/* LIGHT MODE kart */
 .card {
   @apply rounded-2xl shadow-lg p-8 transition-transform duration-300 
          hover:scale-[1.03] hover:shadow-2xl border;
   @apply bg-white border-slate-200 text-slate-900;
 }
 
-/* DARK MODE OVERRIDE */
+/* DARK MODE kart */
 .dark .card {
   @apply bg-mid border-primary/10 text-white;
 }
@@ -57,23 +56,16 @@ body {
   @apply border border-primary text-primary px-6 py-3 rounded-lg font-semibold 
          hover:bg-primary hover:text-white transition-all duration-300;
 }
-
-/* Dark mode'da outline butonun yazısı beyaz olsun */
 .dark .btn-outline {
   @apply text-white;
 }
 
 /* ================================
-   NAVBAR — YENİ DÜZEN
+   NAVBAR
 ================================ */
-/* Burada da light/dark ayrı düşünelim */
-
-/* LIGHT MODE NAVBAR */
 .navbar {
   @apply w-full backdrop-blur-lg bg-slate-50/90 border-b border-slate-200/80 shadow-md;
 }
-
-/* DARK MODE NAVBAR */
 .dark .navbar {
   @apply bg-dark/80 border-primary/10;
 }
@@ -86,13 +78,9 @@ body.menu-open {
 /* ================================
    FOOTER
 ================================ */
-
-/* LIGHT MODE FOOTER */
 footer {
   @apply bg-slate-100 text-gray-500 text-center py-8 border-t border-slate-200;
 }
-
-/* DARK MODE FOOTER */
 .dark footer {
   @apply bg-gradient-to-t from-dark to-mid text-gray-400 border-primary/10;
 }
