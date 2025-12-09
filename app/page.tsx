@@ -3,7 +3,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Sun, Moon, Linkedin, Instagram, Github } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Linkedin,
+  Instagram,
+  Github,
+  Menu,
+  X,
+} from "lucide-react";
 
 interface Project {
   _id: string;
@@ -16,6 +24,7 @@ export default function HomePage() {
   const [darkMode, setDarkMode] = useState(true);
   const [lang, setLang] = useState<"tr" | "en">("tr");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [menuOpen, setMenuOpen] = useState(false); // 🔹 Mobil menü
 
   // 💡 Tema toggle
   useEffect(() => {
@@ -100,52 +109,32 @@ export default function HomePage() {
     <main className="min-h-screen overflow-x-hidden bg-dark text-white transition-colors duration-300">
       {/* Navbar */}
       <motion.nav
-        className="navbar flex flex-col gap-4 md:flex-row md:justify-between md:items-center px-4 md:px-8 py-4"
-        initial={{ y: -50, opacity: 0 }}
+        className="navbar sticky top-0 z-40 bg-dark/95 backdrop-blur border-b border-white/10 px-4 md:px-8 py-3"
+        initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.4 }}
       >
-        <div className="flex items-center gap-3 justify-center md:justify-start">
-          {/* 🔹 Logo örnek yolu */}
-          <Image
-            src="/images/logo.png"
-            alt="E&B Software Group Logo"
-            width={40}
-            height={40}
-            className="rounded-xl shadow-md"
-          />
-          <div className="text-center md:text-left">
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-wide">
-              E&B Software Group
-            </h1>
-            <p className="text-[11px] sm:text-xs md:text-sm text-gray-300">
-              Smart Solutions for a Digital World.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center w-full md:w-auto justify-between md:justify-end gap-3 md:gap-5">
-          <div className="hidden sm:flex items-center gap-3 md:gap-5 text-xs sm:text-sm">
-            <a
-              href="#hizmetler"
-              className="hidden md:inline hover:text-primary transition"
-            >
-              {t.services}
-            </a>
-            <a
-              href="#projeler"
-              className="hidden md:inline hover:text-primary transition"
-            >
-              {t.projeler}
-            </a>
-            <a
-              href="#iletisim"
-              className="hidden md:inline hover:text-primary transition"
-            >
-              {t.contact}
-            </a>
+        <div className="flex items-center justify-between gap-3">
+          {/* Logo + Brand */}
+          <div className="flex items-center gap-3 min-w-0">
+            <Image
+              src="/images/logo.png"
+              alt="E&B Software Group Logo"
+              width={40}
+              height={40}
+              className="rounded-xl shadow-md flex-shrink-0"
+            />
+            <div className="text-left truncate">
+              <h1 className="text-base sm:text-lg md:text-xl font-bold tracking-wide truncate">
+                E&B Software Group
+              </h1>
+              <p className="text-[10px] sm:text-xs text-gray-300 truncate">
+                Smart Solutions for a Digital World.
+              </p>
+            </div>
           </div>
 
+          {/* Sağ taraf: dil, tema, hamburger */}
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setLang(lang === "tr" ? "en" : "tr")}
@@ -164,13 +153,66 @@ export default function HomePage() {
                 <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               )}
             </button>
+
+            {/* Hamburger sadece mobilde */}
+            <button
+              className="md:hidden p-2 rounded-md hover:bg-white/5 transition"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label="Menüyü aç / kapat"
+            >
+              {menuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Desktop linkler */}
+        <div className="hidden md:flex items-center justify-end gap-6 mt-3 text-sm">
+          <a href="#hizmetler" className="hover:text-primary transition">
+            {t.services}
+          </a>
+          <a href="#projeler" className="hover:text-primary transition">
+            {t.projeler}
+          </a>
+          <a href="#iletisim" className="hover:text-primary transition">
+            {t.contact}
+          </a>
+        </div>
+
+        {/* Mobil dropdown menü */}
+        {menuOpen && (
+          <div className="md:hidden mt-3 flex flex-col gap-2 text-sm border-t border-white/10 pt-3">
+            <a
+              href="#hizmetler"
+              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              {t.services}
+            </a>
+            <a
+              href="#projeler"
+              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              {t.projeler}
+            </a>
+            <a
+              href="#iletisim"
+              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              {t.contact}
+            </a>
+          </div>
+        )}
       </motion.nav>
 
       {/* Hero */}
       <motion.section
-        className="pt-16 sm:pt-20 md:pt-28 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-6 md:px-10 bg-gradient-to-b from-dark to-mid text-center"
+        className="pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-6 md:px-10 bg-gradient-to-b from-dark to-mid text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -192,10 +234,16 @@ export default function HomePage() {
             {t.heroDesc}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
-            <a href="#hizmetler" className="btn-primary w-full sm:w-auto text-sm sm:text-base">
+            <a
+              href="#hizmetler"
+              className="btn-primary w-full sm:w-auto text-sm sm:text-base"
+            >
               {t.explore}
             </a>
-            <a href="#iletisim" className="btn-outline w-full sm:w-auto text-sm sm:text-base">
+            <a
+              href="#iletisim"
+              className="btn-outline w-full sm:w-auto text-sm sm:text-base"
+            >
               {t.contact}
             </a>
           </div>
@@ -203,7 +251,10 @@ export default function HomePage() {
       </motion.section>
 
       {/* Hizmetlerimiz */}
-      <section id="hizmetler" className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-dark">
+      <section
+        id="hizmetler"
+        className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-dark"
+      >
         <motion.div
           className="max-w-6xl mx-auto"
           initial={{ opacity: 0, y: 50 }}
@@ -235,7 +286,10 @@ export default function HomePage() {
       </section>
 
       {/* Projeler */}
-      <section id="projeler" className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-mid">
+      <section
+        id="projeler"
+        className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-mid"
+      >
         <motion.div
           className="max-w-6xl mx-auto"
           initial={{ opacity: 0, y: 60 }}
