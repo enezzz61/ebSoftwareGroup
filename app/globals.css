@@ -2,17 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Genel ayarlar */
-html, body {
+/* ================================
+   GLOBAL GENEL AYARLAR
+================================ */
+html,
+body {
   @apply bg-dark text-white font-sans scroll-smooth antialiased;
 }
 
 ::selection {
   background-color: theme("colors.primary");
-  color: #ffffff;
+  color: #fff;
 }
 
-/* Scrollbar */
+/* ================================
+   SCROLLBAR TASARIMI
+================================ */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -24,23 +29,45 @@ html, body {
   background: #0096CC;
 }
 
-/* Reusable yardımcı sınıflar */
+/* ================================
+   REUSABLE UI COMPONENTS
+================================ */
+
+/* Kart tasarımı */
 .card {
-  @apply bg-mid rounded-2xl shadow-lg p-8 transition-transform duration-300 hover:scale-[1.03] hover:shadow-2xl border border-primary/10;
+  @apply bg-mid rounded-2xl shadow-lg p-8 transition-transform duration-300 
+         hover:scale-[1.03] hover:shadow-2xl border border-primary/10;
 }
 
+/* Butonlar */
 .btn-primary {
-  @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-[#0096CC] transition-all duration-300;
+  @apply bg-primary text-white px-6 py-3 rounded-lg font-semibold shadow-md 
+         hover:bg-[#0096CC] transition-all duration-300;
 }
 
 .btn-outline {
-  @apply border border-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary hover:text-white transition-all duration-300;
+  @apply border border-primary text-white px-6 py-3 rounded-lg font-semibold 
+         hover:bg-primary hover:text-white transition-all duration-300;
 }
 
+/* ================================
+   NAVBAR — YENİ DÜZEN
+================================ */
+/* Navbar TSX içinde sticky veya fixed verilmelidir,
+   burada sadece görünüm tasarımı duruyor */
 .navbar {
-  @apply fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-dark/80 border-b border-primary/10 shadow-md;
+  @apply w-full backdrop-blur-lg bg-dark/80 border-b border-primary/10 shadow-md;
 }
 
+/* Mobil menü açıldığında body’nin kaymasını engellemek için */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ================================
+   FOOTER
+================================ */
 footer {
-  @apply bg-gradient-to-t from-dark to-mid text-gray-400 text-center py-8 mt-20 border-t border-primary/10;
+  @apply bg-gradient-to-t from-dark to-mid text-gray-400 text-center py-8 
+         border-t border-primary/10;
 }
