@@ -1,11 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://ebsoftwaregroup.com"),
   title: {
     default: "E&B Software Group | Smart Solutions for a Digital World",
-    template: "%s | E&B Software Group"
+    template: "%s | E&B Software Group",
   },
   description:
     "E&B Software Group ile web yazılım, mobil uygulama, kurumsal yazılım, yapay zekâ ve otomasyon çözümleri. Dijital dönüşüm için modern ve ölçeklenebilir yazılım hizmetleri.",
@@ -19,7 +19,7 @@ export const metadata = {
     "AI otomasyon",
     "veri analizi",
     "E&B Software Group",
-    "yapay zeka entegrasyonu"
+    "yapay zeka entegrasyonu",
   ],
   openGraph: {
     title: "E&B Software Group",
@@ -34,37 +34,36 @@ export const metadata = {
         url: "https://ebsoftwaregroup.com/images/logo.png",
         width: 1200,
         height: 630,
-        alt: "E&B Software Group"
-      }
-    ]
+        alt: "E&B Software Group",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "E&B Software Group",
     description:
       "Web, mobil ve kurumsal yazılım çözümleri. Modern teknoloji ile dijital dönüşüm.",
-    images: ["https://ebsoftwaregroup.com/images/logo.png"]
+    images: ["https://ebsoftwaregroup.com/images/logo.png"],
   },
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
-      follow: true
-    }
-  }
+      follow: true,
+    },
+  },
 };
 
-
-
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="tr">
-      <body className="bg-dark text-white">{children}</body>
+    <html lang="tr" suppressHydrationWarning>
+      {/* Tema ve global stiller globals.css’ten geliyor */}
+      <body>{children}</body>
     </html>
   );
 }
