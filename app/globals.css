@@ -7,7 +7,8 @@
 ================================ */
 html,
 body {
-  @apply bg-dark text-white font-sans scroll-smooth antialiased;
+  /* Artık her zaman dark değil, sadece font + smooth */
+  @apply font-sans scroll-smooth antialiased;
 }
 
 ::selection {
@@ -34,9 +35,16 @@ body {
 ================================ */
 
 /* Kart tasarımı */
+/* LIGHT MODE DEFAULT */
 .card {
-  @apply bg-mid rounded-2xl shadow-lg p-8 transition-transform duration-300 
-         hover:scale-[1.03] hover:shadow-2xl border border-primary/10;
+  @apply rounded-2xl shadow-lg p-8 transition-transform duration-300 
+         hover:scale-[1.03] hover:shadow-2xl border;
+  @apply bg-white border-slate-200 text-slate-900;
+}
+
+/* DARK MODE OVERRIDE */
+.dark .card {
+  @apply bg-mid border-primary/10 text-white;
 }
 
 /* Butonlar */
@@ -46,17 +54,28 @@ body {
 }
 
 .btn-outline {
-  @apply border border-primary text-white px-6 py-3 rounded-lg font-semibold 
+  @apply border border-primary text-primary px-6 py-3 rounded-lg font-semibold 
          hover:bg-primary hover:text-white transition-all duration-300;
+}
+
+/* Dark mode'da outline butonun yazısı beyaz olsun */
+.dark .btn-outline {
+  @apply text-white;
 }
 
 /* ================================
    NAVBAR — YENİ DÜZEN
 ================================ */
-/* Navbar TSX içinde sticky veya fixed verilmelidir,
-   burada sadece görünüm tasarımı duruyor */
+/* Burada da light/dark ayrı düşünelim */
+
+/* LIGHT MODE NAVBAR */
 .navbar {
-  @apply w-full backdrop-blur-lg bg-dark/80 border-b border-primary/10 shadow-md;
+  @apply w-full backdrop-blur-lg bg-slate-50/90 border-b border-slate-200/80 shadow-md;
+}
+
+/* DARK MODE NAVBAR */
+.dark .navbar {
+  @apply bg-dark/80 border-primary/10;
 }
 
 /* Mobil menü açıldığında body’nin kaymasını engellemek için */
@@ -67,7 +86,13 @@ body.menu-open {
 /* ================================
    FOOTER
 ================================ */
+
+/* LIGHT MODE FOOTER */
 footer {
-  @apply bg-gradient-to-t from-dark to-mid text-gray-400 text-center py-8 
-         border-t border-primary/10;
+  @apply bg-slate-100 text-gray-500 text-center py-8 border-t border-slate-200;
+}
+
+/* DARK MODE FOOTER */
+.dark footer {
+  @apply bg-gradient-to-t from-dark to-mid text-gray-400 border-primary/10;
 }
