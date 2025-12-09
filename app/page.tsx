@@ -24,19 +24,39 @@ export default function HomePage() {
   const [darkMode, setDarkMode] = useState(true);
   const [lang, setLang] = useState<"tr" | "en">("tr");
   const [projects, setProjects] = useState<Project[]>([]);
-  const [menuOpen, setMenuOpen] = useState(false); // 🔹 Mobil menü
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // 💡 Tema toggle
+  // 💡 Tema toggle → <html> üzerine dark class ekle / kaldır
   useEffect(() => {
-    document.body.classList.toggle("dark", darkMode);
+    const root = document.documentElement; // <html>
+
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
   // 💡 Sayfa açıldığında önceki tema durumunu hatırla
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") setDarkMode(false);
+    const saved = localStorage.getItem("theme");
+    if (saved === "light") {
+      setDarkMode(false);
+    } else {
+      setDarkMode(true);
+    }
   }, []);
+
+  // (Opsiyonel) Menü açıksa body scroll kilit
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.classList.add("menu-open");
+    } else {
+      document.body.classList.remove("menu-open");
+    }
+  }, [menuOpen]);
 
   // 🔹 Projeleri getir
   useEffect(() => {
@@ -106,10 +126,22 @@ export default function HomePage() {
   }[lang];
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-dark text-white transition-colors duration-300">
+    <main
+      className="
+        min-h-screen overflow-x-hidden 
+        bg-slate-50 text-slate-900
+        dark:bg-dark dark:text-white
+        transition-colors duration-300
+      "
+    >
       {/* Navbar */}
       <motion.nav
-        className="navbar sticky top-0 z-40 bg-dark/95 backdrop-blur border-b border-white/10 px-4 md:px-8 py-3"
+        className="
+          navbar sticky top-0 z-40 
+          bg-slate-50/90 border-slate-200/80 
+          dark:bg-dark/95 dark:border-white/10 
+          backdrop-blur px-4 md:px-8 py-3
+        "
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
@@ -128,7 +160,7 @@ export default function HomePage() {
               <h1 className="text-base sm:text-lg md:text-xl font-bold tracking-wide truncate">
                 E&B Software Group
               </h1>
-              <p className="text-[10px] sm:text-xs text-gray-300 truncate">
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-300 truncate">
                 Smart Solutions for a Digital World.
               </p>
             </div>
@@ -150,13 +182,13 @@ export default function HomePage() {
               {darkMode ? (
                 <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
               ) : (
-                <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-slate-800" />
               )}
             </button>
 
             {/* Hamburger sadece mobilde */}
             <button
-              className="md:hidden p-2 rounded-md hover:bg-white/5 transition"
+              className="md:hidden p-2 rounded-md hover:bg-slate-200/60 dark:hover:bg-white/5 transition"
               onClick={() => setMenuOpen((prev) => !prev)}
               aria-label="Menüyü aç / kapat"
             >
@@ -171,37 +203,46 @@ export default function HomePage() {
 
         {/* Desktop linkler */}
         <div className="hidden md:flex items-center justify-end gap-6 mt-3 text-sm">
-          <a href="#hizmetler" className="hover:text-primary transition">
+          <a
+            href="#hizmetler"
+            className="hover:text-primary transition-colors"
+          >
             {t.services}
           </a>
-          <a href="#projeler" className="hover:text-primary transition">
+          <a
+            href="#projeler"
+            className="hover:text-primary transition-colors"
+          >
             {t.projeler}
           </a>
-          <a href="#iletisim" className="hover:text-primary transition">
+          <a
+            href="#iletisim"
+            className="hover:text-primary transition-colors"
+          >
             {t.contact}
           </a>
         </div>
 
         {/* Mobil dropdown menü */}
         {menuOpen && (
-          <div className="md:hidden mt-3 flex flex-col gap-2 text-sm border-t border-white/10 pt-3">
+          <div className="md:hidden mt-3 flex flex-col gap-2 text-sm border-t border-slate-200 dark:border-white/10 pt-3">
             <a
               href="#hizmetler"
-              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              className="py-2 px-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 transition"
               onClick={() => setMenuOpen(false)}
             >
               {t.services}
             </a>
             <a
               href="#projeler"
-              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              className="py-2 px-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 transition"
               onClick={() => setMenuOpen(false)}
             >
               {t.projeler}
             </a>
             <a
               href="#iletisim"
-              className="py-2 px-1 rounded hover:bg-white/5 transition"
+              className="py-2 px-1 rounded hover:bg-slate-100 dark:hover:bg-white/5 transition"
               onClick={() => setMenuOpen(false)}
             >
               {t.contact}
@@ -212,7 +253,15 @@ export default function HomePage() {
 
       {/* Hero */}
       <motion.section
-        className="pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24 px-4 sm:px-6 md:px-10 bg-gradient-to-b from-dark to-mid text-center"
+        className="
+          pt-16 sm:pt-20 md:pt-24 
+          pb-16 sm:pb-20 md:pb-24 
+          px-4 sm:px-6 md:px-10 
+          bg-gradient-to-b 
+          from-slate-50 to-slate-100
+          dark:from-dark dark:to-mid
+          text-center
+        "
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -230,7 +279,7 @@ export default function HomePage() {
             {t.heroTitle1}{" "}
             <span className="text-primary">{t.heroTitle2}</span>.
           </h2>
-          <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 px-1">
+          <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 px-1">
             {t.heroDesc}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
@@ -253,7 +302,11 @@ export default function HomePage() {
       {/* Hizmetlerimiz */}
       <section
         id="hizmetler"
-        className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-dark"
+        className="
+          py-14 sm:py-16 md:py-20 
+          px-4 sm:px-6 md:px-10 
+          bg-slate-50 dark:bg-dark
+        "
       >
         <motion.div
           className="max-w-6xl mx-auto"
@@ -276,7 +329,7 @@ export default function HomePage() {
                 <h4 className="text-lg sm:text-xl font-semibold mb-3">
                   {t[`service${i}` as keyof typeof t]}
                 </h4>
-                <p className="text-gray-300 text-sm sm:text-[15px] leading-relaxed">
+                <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-[15px] leading-relaxed">
                   {t[`service${i}desc` as keyof typeof t]}
                 </p>
               </motion.div>
@@ -288,7 +341,11 @@ export default function HomePage() {
       {/* Projeler */}
       <section
         id="projeler"
-        className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-mid"
+        className="
+          py-14 sm:py-16 md:py-20 
+          px-4 sm:px-6 md:px-10 
+          bg-slate-100 dark:bg-mid
+        "
       >
         <motion.div
           className="max-w-6xl mx-auto"
@@ -313,13 +370,13 @@ export default function HomePage() {
                   <h4 className="text-lg sm:text-xl font-semibold mb-3">
                     {proj.title}
                   </h4>
-                  <p className="text-gray-300 text-sm sm:text-[15px] leading-relaxed">
+                  <p className="text-slate-600 dark:text-gray-300 text-sm sm:text-[15px] leading-relaxed">
                     {proj.desc}
                   </p>
                 </motion.a>
               ))
             ) : (
-              <p className="text-gray-400 text-center col-span-3 text-sm sm:text-base">
+              <p className="text-gray-500 dark:text-gray-400 text-center col-span-3 text-sm sm:text-base">
                 {lang === "tr"
                   ? "Projeler şu anda yüklenemedi."
                   : "Projects could not be loaded."}
@@ -332,7 +389,12 @@ export default function HomePage() {
       {/* İletişim */}
       <motion.section
         id="iletisim"
-        className="py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-10 bg-dark text-center"
+        className="
+          py-14 sm:py-16 md:py-20 
+          px-4 sm:px-6 md:px-10 
+          bg-slate-50 dark:bg-dark 
+          text-center
+        "
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -340,7 +402,7 @@ export default function HomePage() {
         <h3 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-primary">
           {t.iletisimBaslik}
         </h3>
-        <p className="text-gray-300 mb-5 sm:mb-6 text-sm sm:text-base max-w-2xl mx-auto px-1">
+        <p className="text-slate-600 dark:text-gray-300 mb-5 sm:mb-6 text-sm sm:text-base max-w-2xl mx-auto px-1">
           {t.iletisimDesc}
         </p>
         <a
@@ -353,7 +415,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <motion.footer
-        className="pt-8 sm:pt-10 pb-5 sm:pb-6 text-center bg-mid"
+        className="pt-8 sm:pt-10 pb-5 sm:pb-6 text-center bg-slate-100 dark:bg-mid"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -381,7 +443,7 @@ export default function HomePage() {
             <Github className="w-5 h-5 sm:w-6 sm:h-6" />
           </a>
         </div>
-        <p className="text-[11px] sm:text-xs text-gray-500 px-2">
+        <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 px-2">
           © {new Date().getFullYear()} E&B Software Group. All rights reserved.
         </p>
       </motion.footer>
