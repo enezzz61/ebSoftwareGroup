@@ -55,6 +55,17 @@ export const metadata: Metadata = {
   },
 };
 
+import "./globals.css";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  // ... senin metadata aynı kalabilir
+  title: {
+    default: "E&B Software Group | Smart Solutions for a Digital World",
+    template: "%s | E&B Software Group",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -62,8 +73,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr" suppressHydrationWarning>
-      {/* Tema ve global stiller globals.css’ten geliyor */}
       <body>{children}</body>
     </html>
   );
 }
+
